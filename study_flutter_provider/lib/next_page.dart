@@ -9,7 +9,7 @@ class NextPage extends StatelessWidget {
         appBar: AppBar(
           title: Text('Next Page'),
         ),
-        body: Text('aaaa'),
+        body: _Text1(),
         floatingActionButton: _FloatingButton1());
   }
 }
@@ -25,5 +25,13 @@ class _FloatingButton1 extends StatelessWidget {
       onPressed: counter.increment1,
       child: const Icon(Icons.add),
     );
+  }
+}
+
+class _Text1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final firebase = Provider.of<FirebaseBloc>(context);
+    return Text(firebase.status);
   }
 }
