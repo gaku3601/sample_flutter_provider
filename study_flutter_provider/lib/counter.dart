@@ -26,13 +26,14 @@ class Counter extends StatelessWidget {
 class _FloatingButton1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // ボタンはカウンターの値の変更に反応する必要がないためlistenしないようにしておく
-    final counter = Provider.of<CnCounter>(context, listen: false);
-
-    return FloatingActionButton(
-      heroTag: "btn1",
-      onPressed: counter.increment1,
-      child: const Icon(Icons.add),
+    return Consumer<CnCounter>(
+      builder: (_, bloc, __) {
+        return FloatingActionButton(
+          heroTag: "btn1",
+          onPressed: bloc.increment1,
+          child: const Icon(Icons.add),
+        );
+      },
     );
   }
 }
@@ -40,13 +41,14 @@ class _FloatingButton1 extends StatelessWidget {
 class _FloatingButton2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // ボタンはカウンターの値の変更に反応する必要がないためlistenしないようにしておく
-    final counter = Provider.of<CnCounter>(context, listen: false);
-
-    return FloatingActionButton(
-      heroTag: "btn2",
-      onPressed: counter.increment2,
-      child: const Icon(Icons.add),
+    return Consumer<CnCounter>(
+      builder: (_, bloc, __) {
+        return FloatingActionButton(
+          heroTag: "btn2",
+          onPressed: bloc.increment2,
+          child: const Icon(Icons.add),
+        );
+      },
     );
   }
 }
@@ -59,8 +61,27 @@ class _CounterText extends StatelessWidget {
     return Center(
       child: Column(
         children: <Widget>[
-          Text(counter.counter1.toString()),
-          Text(counter.counter2.toString()),
+          Expanded(
+            child: StreamBuilder<String>(
+              stream: counter.counter1,
+              builder: (context, snapshot) {
+                return Center(
+                  child: Text(snapshot.data ?? '0'),
+                );
+              },
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder<String>(
+              initialData: counter.counter2.value,
+              stream: counter.counter2,
+              builder: (context, snapshot) {
+                return Center(
+                  child: Text(snapshot.data),
+                );
+              },
+            ),
+          ),
           RaisedButton(
             child: Text("Next Page"),
             color: Colors.orange,

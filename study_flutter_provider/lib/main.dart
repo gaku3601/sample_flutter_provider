@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:study_flutter_provider/blocs/counter2_bloc.dart';
 import 'package:study_flutter_provider/blocs/counter_bloc.dart';
 import 'package:study_flutter_provider/blocs/firebase_bloc.dart';
 import 'package:study_flutter_provider/counter.dart';
@@ -12,8 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<CnCounter>(
+        Provider<CnCounter>(
           builder: (_) => CnCounter(),
+          dispose: (_, bloc) => bloc.dispose(),
         ),
         ChangeNotifierProvider<FirebaseBloc>(
           builder: (_) => FirebaseBloc(),
