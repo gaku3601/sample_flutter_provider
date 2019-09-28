@@ -18,11 +18,11 @@ class _FloatingButton1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ボタンはカウンターの値の変更に反応する必要がないためlistenしないようにしておく
-    final counter = Provider.of<FirebaseBloc>(context, listen: false);
+    final counter = Provider.of<FirebaseBloc>(context);
 
     return FloatingActionButton(
       heroTag: "btn1",
-      onPressed: counter.increment1,
+      onPressed: counter.increment,
       child: const Icon(Icons.add),
     );
   }
@@ -32,6 +32,24 @@ class _Text1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebase = Provider.of<FirebaseBloc>(context);
-    return Text(firebase.status);
+    return Column(
+      children: <Widget>[
+        StreamBuilder<String>(
+          initialData: firebase.status.value,
+          stream: firebase.status,
+          builder: (context, snapshot) {
+            return Text(snapshot.data);
+          },
+        ),
+        Expanded(
+          child: ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return Text(index.toString());
+            },
+            itemCount: 10,
+          ),
+        )
+      ],
+    );
   }
 }

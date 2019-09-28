@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
-class FirebaseBloc with ChangeNotifier {
+class FirebaseBloc {
   CollectionReference repo = Firestore.instance.collection('test');
-  String _status = 'pending';
-  String get status => _status;
+  final _statusController = BehaviorSubject<String>.seeded('pending');
+  ValueObservable<String> get status => _statusController;
 
-  Future<void> increment1() async {
-    _status = 'processing';
-    notifyListeners();
-    var data = await repo.add({'counter': 0});
-    _status = data.documentID;
-    notifyListeners();
+  Future<void> increment() async {
+    _statusController.sink.add('processing');
+    await repo.add({'counter': 0});
+    _statusController.sink.add('complete');
+  }
+
+  void dispose() {
+    _statusController.close();
   }
 }

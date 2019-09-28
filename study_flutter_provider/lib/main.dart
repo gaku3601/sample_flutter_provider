@@ -17,9 +17,10 @@ class MyApp extends StatelessWidget {
           builder: (_) => CnCounter(),
           dispose: (_, bloc) => bloc.dispose(),
         ),
-        ChangeNotifierProvider<FirebaseBloc>(
+        Provider<FirebaseBloc>(
           builder: (_) => FirebaseBloc(),
-        )
+          dispose: (_, bloc) => bloc.dispose(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
