@@ -42,13 +42,18 @@ class _Text1 extends StatelessWidget {
           },
         ),
         Expanded(
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return Text(index.toString());
-            },
-            itemCount: 10,
-          ),
-        )
+            child: StreamBuilder<List<TestData>>(
+          initialData: firebase.listValue.value,
+          stream: firebase.listValue,
+          builder: (context, snapshot) {
+            return ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return Text(snapshot.data[index].id);
+              },
+              itemCount: snapshot.data.length,
+            );
+          },
+        ))
       ],
     );
   }
