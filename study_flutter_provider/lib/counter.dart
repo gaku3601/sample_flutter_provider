@@ -15,7 +15,7 @@ class Counter extends StatelessWidget {
         verticalDirection: VerticalDirection.up, // childrenの先頭を下に配置
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _FloatingButton1(),
+          _floatingButton1(),
           _FloatingButton2(),
         ],
       ),
@@ -23,19 +23,16 @@ class Counter extends StatelessWidget {
   }
 }
 
-class _FloatingButton1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<CnCounter>(
-      builder: (_, bloc, __) {
-        return FloatingActionButton(
-          heroTag: "btn1",
-          onPressed: bloc.increment1,
-          child: const Icon(Icons.add),
-        );
-      },
-    );
-  }
+Consumer _floatingButton1() {
+  return Consumer<CnCounter>(
+    builder: (_, bloc, __) {
+      return FloatingActionButton(
+        heroTag: "btn1",
+        onPressed: bloc.increment1,
+        child: const Icon(Icons.add),
+      );
+    },
+  );
 }
 
 class _FloatingButton2 extends StatelessWidget {
